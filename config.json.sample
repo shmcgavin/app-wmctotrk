@@ -1,3 +1,4 @@
 {
-	"output": "/Users/davidhunt/Documents/wmctotrk1.py"
+	"wmc": "/Users/davidhunt/Documents/wmctotrk1.py"
+	"affine": "1 0 0 0 - 0 1 0 0 - 0 0 1 0 - 0 0 0 1" 
 }

@@ -4,5 +4,6 @@
 #PBS -l walltime=00:05:00
 
 #parse config.json for input parameters (here, we are pulling "output")
-out1=$(jq -r .output config.json)
-./wmctotrk1.py $out1
+out1=$(jq -r .wmc config.json)
+out2=$(jq -r .affine config.json)
+./wmctotrk1.py "$out1" "$out2"

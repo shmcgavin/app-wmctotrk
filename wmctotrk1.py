@@ -4,13 +4,19 @@ import numpy
 import nibabel
 from scipy.io import loadmat
 import os
+import sys
 
-ident = numpy.eye(4) #TODO allow this to be a variable inputted by user
+ident = sys.argv[2]
+ident = ident.replace(" ","")
+ident = ident.replace("-", "")
+affine = []
+for g in range(0,16):
+	affine.append(float(ident[g]))
+ident = numpy.reshape(affine,(4,4))
 
-
-x = loadmat('/Users/davidhunt/Documents/5bb62f5112512a003f32ed4e/output.mat') #TODO make this path a variable
+x = loadmat(sys.argv[1]) #TODO make this path a variable
 fg_classified = x['fg_classified']
-fg_classified = loadmat('/Users/davidhunt/Documents/5bb62f5112512a003f32ed4e/output.mat')['fg_classified']
+fg_classified = loadmat(sys.argv[1])['fg_classified']
 
 os.mkdir("output")
 os.chdir("output") #creates an output directory for the .trk files
