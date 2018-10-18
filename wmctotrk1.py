@@ -7,8 +7,8 @@ import os
 import sys
 
 ident = sys.argv[2]
-ident = ident.replace(" ","")
-ident = ident.replace("-", "")
+ident = ident.replace("-","")
+ident = ident.split()
 affine = []
 for g in range(0,16):
 	affine.append(float(ident[g]))
