@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import numpy
-import nibabel
+import numpy as np
+import nibabel as nib
 from scipy.io import loadmat
 import os
 import sys
@@ -36,7 +36,7 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
     hdr['voxel_to_rasmm'] = affine
     hdr['nb_streamlines'] = len(streamlines)
 
-    t = nibabel.streamlines.tractogram.Tractogram(streamlines=s, affine_to_rasmm=np.eye(4))
+    t = nib.streamlines.tractogram.Tractogram(streamlines=s, affine_to_rasmm=np.eye(4))
     nib.streamlines.save(t, out_file, header=hdr)
 
 
@@ -71,7 +71,7 @@ if __name__ == '__main__':
                 l.append(h)  #builds the matrix for the streamline
             z.append(l)
 
-        s = nibabel.streamlines.array_sequence.ArraySequence(z)
+        s = nib.streamlines.array_sequence.ArraySequence(z)
         #t = nibabel.streamlines.tractogram.Tractogram(streamlines=s, affine_to_rasmm=np.eye(4))
         #trk = nibabel.streamlines.trk.TrkFile(t)
         out_name = 'output/%s.trk' %fg_classified[0,i][0][0].replace(" ","_")
