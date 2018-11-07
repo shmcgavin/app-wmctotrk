@@ -18,13 +18,10 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
                            [   0.  ,    0.  ,    1.25,  -72.  ],
                            [   0.  ,    0.  ,    0.  ,    1.  ]], 
                           dtype=np.float32)
-
     if vox_sizes == None:
-        vox_sizes = np.array([1.25, 1.25, 1.25], dtype=np.float32)
-        
+        vox_sizes = np.array([1.25, 1.25, 1.25], dtype=np.float32)   
     if dim == None:
         dim = np.array([145, 174, 145], dtype=np.int16)
-
     if out_file.split('.')[-1] != 'trk':
         print("Format not supported.")
 
