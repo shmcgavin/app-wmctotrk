@@ -40,15 +40,6 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
     nib.streamlines.save(t, out_file, header=hdr)
 
 
-#ident = sys.argv[2]
-#ident = ident.replace("-","")
-#ident = ident.split()
-#affine = []
-#for g in range(0,16):
-#	affine.append(float(ident[g]))
-#ident = numpy.reshape(affine,(4,4))
-
-
 if __name__ == '__main__':
 
     x = loadmat(sys.argv[1]) #TODO make this path a variable
@@ -56,14 +47,10 @@ if __name__ == '__main__':
     t1_fname = sys.argv[2]
 
     os.mkdir("output")
-    #os.chdir("output") #creates an output directory for the .trk files
 
     for i in range(0, len(fg_classified[0])):  #for each fiber group
         z = []
         g = fg_classified[0,i]['fibers'][0:len(fg_classified[0,i]['fibers'])] #collects all streamlines in the tract
-        #g = fg_classified[0,i][8][0:len(fg_classified[0,i][8])]
-        #os.mkdir(fg_classified[0,i]['name'][0]) #creates a new folder for each fiber group
-        #os.chdir(fg_classified[0,i]['name'][0])
         for j in range(0, len(g)):  #for each streamline in the tract
             l = []
             for k in range(0, len(g[j][0][0])): #for each point in the streamline
@@ -72,10 +59,7 @@ if __name__ == '__main__':
             z.append(l)
 
         s = nib.streamlines.array_sequence.ArraySequence(z)
-        #t = nibabel.streamlines.tractogram.Tractogram(streamlines=s, affine_to_rasmm=np.eye(4))
-        #trk = nibabel.streamlines.trk.TrkFile(t)
         out_name = 'output/%s.trk' %fg_classified[0,i][0][0].replace(" ","_")
-        #trk.save(fg_classified[0,i][0][0].replace(" ","_") + ".trk") #creates the trk file for the tract
 
         if t1_fname == 'null':
             save_trk(s, out_name)
@@ -86,5 +70,3 @@ if __name__ == '__main__':
             dimensions = header.get_data_shape()
             voxel_sizes = header.get_zooms()
             save_trk(s, out_name, affine=aff_vox_to_ras, vox_sizes=voxel_sizes, dim=dimensions)
-
-        #os.chdir("..") #moves back to output directory for the next tract
