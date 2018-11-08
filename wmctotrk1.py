@@ -12,7 +12,7 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
     This function saves tracts in Trackvis '.trk' format.
     The default values for the parameters are the values for the HCP data.
     """
-    if affine == None:
+    if affine is None:
         affine = np.array([[  -1.25,    0.  ,    0.  ,   90.  ],
                            [   0.  ,    1.25,    0.  , -126.  ],
                            [   0.  ,    0.  ,    1.25,  -72.  ],
