@@ -33,13 +33,14 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
     hdr['voxel_to_rasmm'] = affine
     hdr['nb_streamlines'] = len(streamlines)
 
-    t = nib.streamlines.tractogram.Tractogram(streamlines=s, affine_to_rasmm=np.eye(4))
+    t = nib.streamlines.tractogram.Tractogram(streamlines=streamlines, affine_to_rasmm=np.eye(4))
+#t = nib.streamlines.tractogram.Tractogram(streamlines=streamlines, affine_to_rasmm=np.eye(4)) ?
     nib.streamlines.save(t, out_file, header=hdr)
 
 
 if __name__ == '__main__':
 
-    x = loadmat(sys.argv[1]) #TODO make this path a variable
+    x = loadmat(sys.argv[1])
     fg_classified = x['fg_classified']
     t1_fname = sys.argv[2]
 
