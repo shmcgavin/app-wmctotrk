@@ -5,5 +5,5 @@
 
 #parse config.json for input parameters (here, we are pulling "output")
 out1=$(jq -r .wmc config.json)
-out2=$(jq -r .affine config.json)
+out2=$(jq -r .t1 config.json)
 ./wmctotrk1.py "$out1" "$out2"
