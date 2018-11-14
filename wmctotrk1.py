@@ -59,7 +59,7 @@ if __name__ == '__main__':
         s = nib.streamlines.array_sequence.ArraySequence(z)
         out_name = 'output/%s.trk' %fg_classified[0,i][0][0].replace(" ","_")
 
-        if t1_fname == 'null':
+        if t1_fname == None:
             save_trk(s, out_name)
         else:
             t1 = nib.load(t1_fname)
