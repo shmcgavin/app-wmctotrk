@@ -20,7 +20,7 @@ This App converts a WMC brainlife.io DataType to a series of TRK files.
 
 ### On Brainlife.io
 
-You can submit this App online at [https://doi.org/10.25663/bl.app.XX](https://doi.org/10.25663/bl.app.XX) via the "Execute" tab.
+You can submit this App online at [https://doi.org/10.25663/bl.app.127](https://doi.org/10.25663/bl.app.127) via the "Execute" tab.
 
 ### Running Locally (on your machine)
 
