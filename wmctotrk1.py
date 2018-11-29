@@ -35,13 +35,13 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
     hdr['nb_properties_per_streamline'] = 1
     hdr['property_name'] = 'track_number'
     #hdr['id_string'] = 'TRACK' + 
-    dps = {'track_number': np.array([])}
-    for i in range(0, len(streamlines)):
+    #dps = {'track_number': np.array([])}
+    #for i in range(0, len(streamlines)):
         dps['track_number'] = np.append(dps['track_number'], i)
     
 
-    #t = nib.streamlines.tractogram.Tractogram(streamlines=streamlines, affine_to_rasmm=np.eye(4))
-    t = nib.streamlines.tractogram.Tractogram(streamlines=streamlines, data_per_streamline=dps, affine_to_rasmm=np.eye(4))
+    t = nib.streamlines.tractogram.Tractogram(streamlines=streamlines, affine_to_rasmm=np.eye(4))
+    #t = nib.streamlines.tractogram.Tractogram(streamlines=streamlines, data_per_streamline=dps, affine_to_rasmm=np.eye(4))
     nib.streamlines.save(t, out_file, header=hdr)
 
 
