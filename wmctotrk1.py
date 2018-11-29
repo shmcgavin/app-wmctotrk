@@ -36,7 +36,7 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
     hdr['property_name'] = 'track_number'
     #hdr['id_string'] = 'TRACK' + 
     dps = {'track_number': np.array([])}
-    for i in range(0, vars(x)['_header']['nb_streamlines']):
+    for i in range(0, len(s)):
         dps['track_number'] = np.append(dps['track_number'], i)
     
 
