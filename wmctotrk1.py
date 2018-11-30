@@ -67,7 +67,7 @@ if __name__ == '__main__':
                 h = [g[j][0][0][k], g[j][0][1][k], g[j][0][2][k]]
                 l.append(h)  #builds the matrix for the streamline
             z.append(l)
-            dps['fiber_group_name'] = np.append(fg)
+            dps['fiber_group_name'] = np.append(dps['fiber_group_name'],fg)
 
     s = nib.streamlines.array_sequence.ArraySequence(z)
 #    out_name = 'output/%s.trk' %fg_classified[0,i][0][0].replace(" ","_")
