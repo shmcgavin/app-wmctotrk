@@ -55,8 +55,9 @@ if __name__ == '__main__':
     t1_fname = sys.argv[2]
 
     os.mkdir("output")
-    z = []
+
     for i in range(0, len(fg_classified[0])):  #for each fiber group
+        z = []
         g = fg_classified[0,i]['fibers'][0:len(fg_classified[0,i]['fibers'])] #collects all streamlines in the tract
         for j in range(0, len(g)):  #for each streamline in the tract
             l = []
@@ -65,15 +66,15 @@ if __name__ == '__main__':
                 l.append(h)  #builds the matrix for the streamline
             z.append(l)
 
-    s = nib.streamlines.array_sequence.ArraySequence(z)
-#    out_name = 'output/%s.trk' %fg_classified[0,i][0][0].replace(" ","_")
-    out_name = 'output.trk'
-    if t1_fname == None:
-        save_trk(s, out_name)
-    else:
-        t1 = nib.load(t1_fname)
-        aff_vox_to_ras = t1.affine
-        header = t1.header
-        dimensions = header.get_data_shape()
-        voxel_sizes = header.get_zooms()
-        save_trk(s, out_name, affine=aff_vox_to_ras, vox_sizes=voxel_sizes, dim=dimensions)
+        s = nib.streamlines.array_sequence.ArraySequence(z)
+        out_name = 'output/%s.trk' %fg_classified[0,i][0][0].replace(" ","_")
+
+        if t1_fname == None:
+            save_trk(s, out_name)
+        else:
+            t1 = nib.load(t1_fname)
+            aff_vox_to_ras = t1.affine
+            header = t1.header
+            dimensions = header.get_data_shape()
+            voxel_sizes = header.get_zooms()
+            save_trk(s, out_name, affine=aff_vox_to_ras, vox_sizes=voxel_sizes, dim=dimensions)
