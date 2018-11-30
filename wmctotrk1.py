@@ -13,7 +13,7 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
     The default values for the parameters are the values for the HCP data.
     """
     if affine is None:
-        affine = np.array([[  -1.25,    0.  ,    0.  ,   90.  ],
+        affine = np.array([[  1.25,    0.  ,    0.  ,  -90.  ],
                            [   0.  ,    1.25,    0.  , -126.  ],
                            [   0.  ,    0.  ,    1.25,  -72.  ],
                            [   0.  ,    0.  ,    0.  ,    1.  ]], 
@@ -44,7 +44,7 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
 
 
     #t = nib.streamlines.tractogram.Tractogram(streamlines=streamlines, affine_to_rasmm=np.eye(4))
-    t = nib.streamlines.tractogram.Tractogram(streamlines=streamlines, data_per_streamline=dps, affine_to_rasmm=np.eye(4))
+    t = nib.streamlines.tractogram.Tractogram(streamlines=streamlines, data_per_streamline=dps, affine_to_rasmm=affine)
     nib.streamlines.save(t, out_file, header=hdr)
 
 
@@ -67,7 +67,7 @@ if __name__ == '__main__':
                 h = [g[j][0][0][k], g[j][0][1][k], g[j][0][2][k]]
                 l.append(h)  #builds the matrix for the streamline
             z.append(l)
-            dps['fiber_group_name'] = np.append(dps['fiber_group_name'],fg)
+            dps['fiber_group_name'] = np.append(i)
 
     s = nib.streamlines.array_sequence.ArraySequence(z)
 #    out_name = 'output/%s.trk' %fg_classified[0,i][0][0].replace(" ","_")
