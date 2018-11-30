@@ -33,14 +33,14 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
     hdr['voxel_to_rasmm'] = affine
     hdr['nb_streamlines'] = len(streamlines)
     hdr['nb_properties_per_streamline'] = 1
-    hdr['property_name'] = 'track_number'
-    dps = {'track_number': np.array([])}
-    for i in range(0, len(streamlines)):
-        dps['track_number'] = np.append(dps['track_number'], i)
-    #hdr['property_name'] = 'fiber_group_name'
-    #dps = {'fiber_group_name': np.array([])}
+    #hdr['property_name'] = 'track_number'
+    #dps = {'track_number': np.array([])}
     #for i in range(0, len(streamlines)):
-    #    dps['fiber_group_name'] = np.append(dps['fiber_group_name'], i)
+    #    dps['track_number'] = np.append(dps['track_number'], i)
+    hdr['property_name'] = 'fiber_group_name'
+
+    #for i in range(0, len(streamlines)):
+        #dps['fiber_group_name'] = np.append(dps['fiber_group_name'], i)
 
 
     #t = nib.streamlines.tractogram.Tractogram(streamlines=streamlines, affine_to_rasmm=np.eye(4))
@@ -50,6 +50,7 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
 
 if __name__ == '__main__':
 
+    dps = {'fiber_group_name': np.array([])}
     x = loadmat(sys.argv[1])
     fg_classified = x['fg_classified']
     t1_fname = sys.argv[2]
@@ -57,13 +58,16 @@ if __name__ == '__main__':
     os.mkdir("output")
     z = []
     for i in range(0, len(fg_classified[0])):  #for each fiber group
-        g = fg_classified[0,i]['fibers'][0:len(fg_classified[0,i]['fibers'])] #collects all streamlines in the tract
+        g = fg_classified[0,i]['fibers'][0:len(fg_classified[0,i]['fibers']) #collects all streamlines in the tract
+        fiber_group_name = fg_classified[0,i][0][0].replace(" ", "_")
+	fg = (fiber_group_name[:20]) if len(fiber_group_name) > 20 else fiber_group_name
         for j in range(0, len(g)):  #for each streamline in the tract
             l = []
             for k in range(0, len(g[j][0][0])): #for each point in the streamline
                 h = [g[j][0][0][k], g[j][0][1][k], g[j][0][2][k]]
                 l.append(h)  #builds the matrix for the streamline
             z.append(l)
+            dps['fiber_group_name'] = np.append(fg)
 
     s = nib.streamlines.array_sequence.ArraySequence(z)
 #    out_name = 'output/%s.trk' %fg_classified[0,i][0][0].replace(" ","_")
