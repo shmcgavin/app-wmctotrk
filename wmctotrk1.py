@@ -58,9 +58,9 @@ if __name__ == '__main__':
     os.mkdir("output")
     z = []
     for i in range(0, len(fg_classified[0])):  #for each fiber group
-        g = fg_classified[0,i]['fibers'][0:len(fg_classified[0,i]['fibers']) #collects all streamlines in the tract
+        g = fg_classified[0,i]['fibers'][0:len(fg_classified[0,i]['fibers'])] #collects all streamlines in the tract
         fiber_group_name = fg_classified[0,i][0][0].replace(" ", "_")
-	fg = (fiber_group_name[:20]) if len(fiber_group_name) > 20 else fiber_group_name
+        fg = (fiber_group_name[:20]) if len(fiber_group_name) > 20 else fiber_group_name
         for j in range(0, len(g)):  #for each streamline in the tract
             l = []
             for k in range(0, len(g[j][0][0])): #for each point in the streamline
