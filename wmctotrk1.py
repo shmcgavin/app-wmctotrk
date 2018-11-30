@@ -37,7 +37,7 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
     #dps = {'track_number': np.array([])}
     #for i in range(0, len(streamlines)):
     #    dps['track_number'] = np.append(dps['track_number'], i)
-    hdr['property_name'] = 'fiber_group_name'
+    hdr['property_name'] = 'fiber_group_number'
 
     #for i in range(0, len(streamlines)):
         #dps['fiber_group_name'] = np.append(dps['fiber_group_name'], i)
@@ -50,7 +50,7 @@ def save_trk(streamlines, out_file, affine=None, vox_sizes=None, vox_order='LAS'
 
 if __name__ == '__main__':
 
-    dps = {'fiber_group_name': np.array([])}
+    dps = {'fiber_group_number': np.array([])}
     x = loadmat(sys.argv[1])
     fg_classified = x['fg_classified']
     t1_fname = sys.argv[2]
@@ -67,7 +67,7 @@ if __name__ == '__main__':
                 h = [g[j][0][0][k], g[j][0][1][k], g[j][0][2][k]]
                 l.append(h)  #builds the matrix for the streamline
             z.append(l)
-            dps['fiber_group_name'] = np.append(i)
+            dps['fiber_group_number'] = np.append(i)
 
     s = nib.streamlines.array_sequence.ArraySequence(z)
 #    out_name = 'output/%s.trk' %fg_classified[0,i][0][0].replace(" ","_")
