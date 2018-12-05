@@ -30,24 +30,29 @@ def wmc_to_trk(wmc_src, img_src, trk_out, json_out=False):
 
     streamlines = []
     bundles = []
-    labels = {}
+    labels = {'bundles' : []}
     
     # Loop through all bundles
     for i in range(0, len(fg_classified[0])):
         # collect all bundles of the same category
         g = fg_classified[0,i]['fibers'][0:len(fg_classified[0,i]['fibers'])]
-        labels["%s" % (i+1)] = fg_classified[0,i][0][0]
-        
+    
         # loop through all the streamline of a bundle
         for j in range(0, len(g)):  
             points = []
             
             # loop through all the points of a streamline
-            for k in range(0, len(g[j][0][0])):
+            bundle_size = len(g[j][0][0])
+            for k in range(0, bundle_size):
                 p = [g[j][0][0][k], g[j][0][1][k], g[j][0][2][k]]
                 points.append(p)
             streamlines.append(np.array(points))
             bundles.append(i+1)
+        info = {}
+        info['id'] = "%s" % (i+1)
+        info['label'] = fg_classified[0,i][0][0]
+        info['count'] = "%s" % bundle_size
+        labels['bundles'].append(info)
    
     bundle_code = {'bundle_code': bundles}    
     transformed_streamlines = move_streamlines(streamlines, np.linalg.inv(affine))
@@ -67,7 +72,7 @@ def wmc_to_trk(wmc_src, img_src, trk_out, json_out=False):
     
     if json_out:
         with open(json_out, 'w') as trk_json:
-            json.dump(labels, trk_json)
+            json.dump(labels, trk_json, indent=4)
 
 
 
