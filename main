@@ -7,8 +7,8 @@ mkdir -p output
 #parse config.json for input parameters (here, we are pulling "output")
 out1=$(jq -r .wmc config.json)
 out2=$(jq -r .t1 config.json)
-out3="./output/track.trk"
-out4="./output/info.json"
+out3="./trk/track.trk"
+out4="./trk/info.json"
 
 #./wmctotrk1.py "$out1" "$out2"
 time SINGULARITYENV_PYTHONNOUSERSITE=true singularity \
