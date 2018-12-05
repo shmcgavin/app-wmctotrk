@@ -3,7 +3,10 @@
 #PBS -l nodes=1:ppn=1
 #PBS -l walltime=00:05:00
 
-mkdir -p output
+set -e
+set -x
+
+mkdir -p trk
 #parse config.json for input parameters (here, we are pulling "output")
 out1=$(jq -r .wmc config.json)
 out2=$(jq -r .t1 config.json)
