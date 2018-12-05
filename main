@@ -19,5 +19,5 @@ time SINGULARITYENV_PYTHONNOUSERSITE=true singularity \
      ./wmc_to_trk.py "$out1" "$out2" "$out3" "$out4"
 
 echo -e "{\n\t\"trk\":" > ./product.json
-cat ./output/info.json >> ./product.json
+cat ./trk/info.json >> ./product.json
 echo -e "\n}" >> ./product.json
