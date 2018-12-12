@@ -29,7 +29,7 @@ You can submit this App online at [https://doi.org/10.25663/bl.app.127](https://
 
 ```json
 {
-  "wmc": "./wmc.mat",
+	"wmc": "./wmc.mat",
 	"t1": "./t1.nii" 
 
 }
