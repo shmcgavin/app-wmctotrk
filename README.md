@@ -1,8 +1,8 @@
 [![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.53-blue.svg)](https://doi.org/10.25663/bl.app.53)
 
-# app-wmctotrk-example
-This App converts a WMC brainlife.io DataType to a series of TRK files.
+# app-wmctotrk
+This App converts a WMC brainlife.io DataType to a TRK file.
 
 ### Authors
 - David Hunt (davhunt@iu.edu)
