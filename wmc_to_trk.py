@@ -51,7 +51,7 @@ def wmc_to_trk(wmc_src, img_src, trk_out, json_out=False):
         info = {}
         info['id'] = "%s" % (i+1)
         info['label'] = fg_classified[0,i][0][0]
-        info['count'] = "%s" % bundle_size
+        info['count'] = "%s" % len(g)
         labels['bundles'].append(info)
    
     bundle_code = {'bundle_code': bundles}    
