@@ -7,17 +7,10 @@ set -e
 set -x
 
 mkdir -p trk
-#parse config.json for input parameters (here, we are pulling "output")
-out1=$(jq -r .wmc config.json)
-out2=$(jq -r .t1 config.json)
-out3="./trk/track.trk"
-out4="./trk/info.json"
 
-#./wmctotrk1.py "$out1" "$out2"
-time SINGULARITYENV_PYTHONNOUSERSITE=true singularity \
-     exec -e docker://brainlife/dipy:0.14.1 \
-     ./wmc_to_trk.py "$out1" "$out2" "$out3" "$out4"
+time SINGULARITYENV_PYTHONNOUSERSITE=true singularity exec -e docker://brainlife/dipy:0.14.1 ./wmc_to_trk.py
 
+#create product.json
 echo -e "{\n\t\"trk\":" > ./product.json
 cat ./trk/info.json >> ./product.json
 echo -e "\n}" >> ./product.json

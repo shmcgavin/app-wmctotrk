@@ -9,8 +9,7 @@ import nibabel as nib
 from scipy.io import loadmat
 from dipy.tracking.utils import move_streamlines
 
-
-def wmc_to_trk(wmc_src, img_src, trk_out, json_out=False):
+def wmc_to_trk(tck, wmc, t1, trk_out, json_out=False):
     """
     Read a wmc matlab data structure and a reference image as input.
     Output a trk file as a single collection of classified fibers.
@@ -19,46 +18,67 @@ def wmc_to_trk(wmc_src, img_src, trk_out, json_out=False):
     bundles.
     """
         
-    wmc = loadmat(wmc_src)
-    fg_classified = wmc['fg_classified']
+    #fg_classified = wmc['fg_classified']
+    classification = wmc['classification']
     
-    img = nib.load(img_src)
-    affine = img.affine
-    header = img.header
+    affine = t1.affine
+    header = t1.header
     dim = header.get_data_shape()[:3]
     vox_sizes = header.get_zooms()[:3]
 
-    streamlines = []
     bundles = []
+    all_streamlines = []
     labels = {'bundles' : []}
     
     # Loop through all bundles
-    for i in range(0, len(fg_classified[0])):
-        # collect all bundles of the same category
-        g = fg_classified[0,i]['fibers'][0:len(fg_classified[0,i]['fibers'])]
-    
-        # loop through all the streamline of a bundle
-        for j in range(0, len(g)):  
-            points = []
-            
-            # loop through all the points of a streamline
-            bundle_size = len(g[j][0][0])
-            for k in range(0, bundle_size):
-                p = [g[j][0][0][k], g[j][0][1][k], g[j][0][2][k]]
-                points.append(p)
-            streamlines.append(np.array(points))
-            bundles.append(i+1)
+    #tract_idx=0
+    index = classification['index'][0][0]
+    #print("classification-----------------")
+    #print(classification['index'][0][0])
+
+    #count fibers for each classification
+    unique, counts = np.unique(index, return_counts=True)
+    bundle_counts = dict(zip(unique, counts))
+
+    tract_idx=0
+    for name in classification['names'][0][0]:
+        tract_idx+=1
+        print tract_idx,name[0]
+    #
+    #    # loop through all the streamline of a bundle
+    #    indexes = np.where(index == tract_idx)
+    #    #print(indexes)
+    #    #print(tck)
+    #    #print(np.take(tck.streamlines, indexes))
+    #    bundle = np.take(tck.streamlines, indexes[0])
+    #    all_streamlines.append(np.array(bundle))
+
+    #    bundle_index = np.empty(len(indexes[0]), dtype=np.uint8)
+    #    bundle_index.fill(tract_idx)
+    #    bundles.extend(bundle_index)
+
         info = {}
-        info['id'] = "%s" % (i+1)
-        info['label'] = fg_classified[0,i][0][0]
-        info['count'] = "%s" % bundle_size
+        info['id'] = tract_idx
+        info['label'] = str(name[0][0])
+        info['count'] = bundle_counts[tract_idx]
         labels['bundles'].append(info)
    
-    bundle_code = {'bundle_code': bundles}    
-    transformed_streamlines = move_streamlines(streamlines, np.linalg.inv(affine))
-    t = nib.streamlines.tractogram.Tractogram(streamlines=transformed_streamlines, \
-                                              data_per_streamline=bundle_code, \
-                                              affine_to_rasmm=affine)
+    #print("pulling non0 - indexes")
+    indexes = np.where(index != 0)
+    #print(indexes)
+    #print("pulling non0 - streamlines")
+    #print(indexes[0])
+    non0_streamlines = np.take(tck.streamlines, indexes[0])
+    #print(non0_streamlines)
+    #print(non0_streamlines)
+
+    bundle_code = {'bundle_code': index}
+
+    transformed_streamlines = move_streamlines(non0_streamlines, np.linalg.inv(affine))
+    t = nib.streamlines.tractogram.Tractogram( \
+        data_per_streamline=bundle_code, \
+        streamlines=transformed_streamlines, \
+        affine_to_rasmm=affine)
 
     # Create a new header with the correct affine 
     hdr = nib.streamlines.trk.TrkFile.create_empty_header()
@@ -74,22 +94,22 @@ def wmc_to_trk(wmc_src, img_src, trk_out, json_out=False):
         with open(json_out, 'w') as trk_json:
             json.dump(labels, trk_json, indent=4)
 
-
-
 if __name__ == '__main__':
+    #arser = argparse.ArgumentParser()
+    #args = parser.parse_args()
+    with open('config.json') as config_f:
+        config = json.load(config_f)
     
-    parser = argparse.ArgumentParser()
-    parser.add_argument( 'wmc_src', nargs='?',default='',
-                        help='The source wmc file')
-    parser.add_argument('img_src', nargs='?', const=1, default='',
-                        help='The reference MR image file')
-    parser.add_argument('trk_out', nargs='?',  const=1, default='default',
-                        help='The output tractogram trk file')
-    parser.add_argument('json_out', nargs='?',  const=1, default=False,
-                        help='The output json file with bundle labels')
-    args = parser.parse_args()
-    
-    wmc_to_trk(args.wmc_src, args.img_src, args.trk_out, args.json_out)
+    print("loading %s" % config['tck'])
+    tck = nib.streamlines.load(config['tck'])
+    print("loading %s" % config['wmc'])
+    wmc = loadmat(config['wmc'])
+    print("loading %s" % config['t1'])
+    t1 = nib.load(config['t1'])
+
+    print("converting to trk")
+    wmc_to_trk(tck, wmc, t1, "trk/track.trk", "trk/info.json")
 
     sys.exit()
     
+

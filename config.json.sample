@@ -1,4 +1,5 @@
 {
-	"wmc": "/Users/davidhunt/Documents/5bb62f5112512a003f32ed4e/output.mat",
-	"t1": "/Users/davidhunt/Documents/t1.nii" 
+	"wmc": "output.mat",
+	"tck": "testdata/track.tck",
+	"t1": "testdata/t1.nii.gz"
 }
