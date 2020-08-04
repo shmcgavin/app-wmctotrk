@@ -8,9 +8,9 @@ set -x
 
 mkdir -p trk
 
-time SINGULARITYENV_PYTHONNOUSERSITE=true singularity exec -e docker://brainlife/dipy:0.14.1 ./wmc_to_trk.py
+time singularity exec -e docker://brainlife/dipy:1.1.1 ./wmc_to_trk.py
 
 #create product.json
-echo -e "{\n\t\"trk\":" > ./product.json
-cat ./trk/info.json >> ./product.json
-echo -e "\n}" >> ./product.json
+#echo -e "{\n\t\"trk\":" > ./product.json
+#cat ./trk/info.json >> ./product.json
+#echo -e "\n}" >> ./product.json

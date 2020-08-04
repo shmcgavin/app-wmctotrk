@@ -1,5 +1,5 @@
 {
-	"wmc": "output.mat",
+	"wmc": "testdata/classification.mat",
 	"tck": "testdata/track.tck",
 	"t1": "testdata/t1.nii.gz"
 }
