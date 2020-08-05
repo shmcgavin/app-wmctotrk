@@ -24,7 +24,7 @@ if __name__ == '__main__':
     t1 = nib.load(config['t1'])
 
     #use index as bundle_code
-    np.squeeze(index = wmc['classification']['index'][0][0])
+    index = np.squeeze(wmc['classification']['index'][0][0])
     bundle_code = data_per_streamline = {'bundle_code': index}
 
     #save as trk
